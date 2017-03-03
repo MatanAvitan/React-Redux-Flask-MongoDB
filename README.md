@@ -16,27 +16,12 @@ Boilerplate application for a Flask JWT Backend and a React/Redux Front-End with
 
 ![screenshot](http://i.imgur.com/ZIS4qkw.png)
 
-### Create DB
+### Install Back-End Requirements
+Using virtualenv recommended = no system-wide packages
 ```sh
-$ export DATABASE_URL="postgresql://localhost/yourdb"
-
-or
-
-$ export DATABASE_URL="mysql+mysqlconnector://localhost/yourdb"
-
-or
-
-$ export DATABASE_URL="sqlite:///your.db"
-
-$ python manage.py create_db
-$ python manage.py db upgrade
-$ python manage.py db migrate
-```
-
-To update database after creating new migrations, use:
-
-```sh
-$ python manage.py db upgrade
+$ mkdir venv && virtualenv venv/gps
+$ venv/gps/bin/activate
+$ pip install -r requirements.txt
 ```
 
 ### Install Front-End Requirements
