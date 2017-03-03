@@ -1,7 +1,6 @@
 from flask import request, render_template, jsonify, url_for, redirect, g
 from .models import User
 from index import app, db
-from sqlalchemy.exc import IntegrityError
 from .utils.auth import generate_token, requires_auth, verify_token
 
 
@@ -23,22 +22,23 @@ def get_user():
 
 @app.route("/api/create_user", methods=["POST"])
 def create_user():
-    incoming = request.get_json()
-    user = User(
-        email=incoming["email"],
-        password=incoming["password"]
-    )
-    db.session.add(user)
-
     try:
-        db.session.commit()
-    except IntegrityError:
+        incoming = request.get_json()
+        email = incoming['email']
+        password = incoming['password']
+    except:
+        return jsonify()
+    if not email or not password:
         return jsonify(message="User with that email already exists"), 409
-
-    new_user = User.query.filter_by(email=incoming["email"]).first()
-
+    u = User(email=email, password=password)
+    try:
+        u.save()
+    except db.NotUniqueError:
+        return jsonify(message="Email already exists"), 409
+    except db.ValidationError:
+        return jsonify(message="Email format incorrect "), 409
+    new_user = User.objects.get(email=email)
     return jsonify(
-        id=user.id,
         token=generate_token(new_user)
     )
 
