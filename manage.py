@@ -1,20 +1,13 @@
-from flask_script import Manager
-from flask_migrate import Migrate, MigrateCommand
+from flask_script import Server, Manager, Shell
 
 from application.app import app, db
 
-migrate = Migrate(app, db)
 manager = Manager(app)
-
-# migrations
-manager.add_command('db', MigrateCommand)
-
-
-@manager.command
-def create_db():
-    """Creates the db tables."""
-    db.create_all()
-
+manager.add_command('runserver', Server())
+manager.add_command('shell', Shell(make_context=lambda: {
+    'app': app,
+    'db': db
+}))
 
 if __name__ == '__main__':
     manager.run()
