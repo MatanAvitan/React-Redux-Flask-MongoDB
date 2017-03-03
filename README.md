@@ -19,8 +19,8 @@ Boilerplate application for a Flask JWT Backend and a React/Redux Front-End with
 ### Install Back-End Requirements
 Using virtualenv recommended = no system-wide packages
 ```sh
-$ mkdir venv && virtualenv venv/gps
-$ venv/gps/bin/activate
+$ mkdir venv && virtualenv -p python3 venv/demo
+$ venv/demo/bin/activate
 $ pip install -r requirements.txt
 ```
 
